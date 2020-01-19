@@ -1,4 +1,4 @@
-package com.galileolanguages.quiz2;
+package eu.galileolanguages.chinesewords;
 
 import org.junit.Test;
 

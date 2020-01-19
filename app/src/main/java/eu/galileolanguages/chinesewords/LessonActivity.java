@@ -1,4 +1,4 @@
-package eu.galileolanguages.quiz2;
+package eu.galileolanguages.chinesewords;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -24,7 +24,7 @@ import java.util.Random;
 import java.util.Set;
 import android.os.*;
 
-import eu.galileolanguages.quiz2.R;
+import eu.galileolanguages.chinesewords.R;
 
 public class LessonActivity extends AppCompatActivity {
     private TextView mScore;

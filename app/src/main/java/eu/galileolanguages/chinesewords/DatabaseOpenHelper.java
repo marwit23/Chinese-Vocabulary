@@ -1,4 +1,4 @@
-package eu.galileolanguages.quiz2;
+package eu.galileolanguages.chinesewords;
 
 import android.content.Context;
 

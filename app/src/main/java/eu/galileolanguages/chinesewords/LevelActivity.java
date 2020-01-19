@@ -1,4 +1,4 @@
-package eu.galileolanguages.quiz2;
+package eu.galileolanguages.chinesewords;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -37,7 +37,7 @@ public class LevelActivity extends AppCompatActivity {
     ImageView tick10;
 
     public int levelNumber;
-    Set<String> set2 = new HashSet<String>();
+    Set<String> set2 = new HashSet<>();
 
 
 
