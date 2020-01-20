@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="eu.galileolanguages.chinesewords">
+    package="eu.galileolanguages.quiz2">
     <uses-permission android:name="com.android.vending.BILLING" />
 
     <application
@@ -12,7 +12,7 @@
         android:theme="@style/AppTheme">
 
 
-        <activity android:name="eu.galileolanguages.chinesewords.LessonActivity"
+        <activity android:name="eu.galileolanguages.quiz2.LessonActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
         <intent-filter>
@@ -21,7 +21,7 @@
         </intent-filter>
     </activity>
 
-        <activity android:name="eu.galileolanguages.chinesewords.LevelActivity"
+        <activity android:name="eu.galileolanguages.quiz2.LevelActivity"
             android:screenOrientation="portrait">
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
@@ -29,7 +29,7 @@
         </intent-filter>
         </activity>
 
-        <activity android:name="eu.galileolanguages.chinesewords.MainActivity"
+        <activity android:name="eu.galileolanguages.quiz2.MainActivity"
             android:screenOrientation="portrait">
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
@@ -40,7 +40,7 @@
     </activity>
 
         <activity
-            android:name="eu.galileolanguages.chinesewords.SplashActivity"
+            android:name="eu.galileolanguages.quiz2.SplashActivity"
 
             android:theme="@style/SplashTheme" android:screenOrientation="portrait">
             <intent-filter>

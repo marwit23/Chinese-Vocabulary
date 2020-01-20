@@ -4,11 +4,11 @@ android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
     defaultConfig {
-        applicationId "eu.galileolanguages.chinesewords"
+        applicationId "eu.galileolanguages.quiz2"
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode 3
-        versionName "3"
+        versionCode 4
+        versionName "4"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
