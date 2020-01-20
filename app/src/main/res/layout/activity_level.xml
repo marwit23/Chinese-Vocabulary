@@ -12,18 +12,19 @@
         android:id="@+id/activity_level1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/lightBlue"
         android:orientation="vertical"
-        android:paddingLeft="0dp"
+        android:background="#f5f5f5"
+        android:paddingLeft="24dp"
         android:paddingTop="0dp"
-        android:paddingRight="0dp"
+        android:paddingRight="24dp"
         android:paddingBottom="0dp"
         tools:context=".LevelActivity">
 
         <RelativeLayout
             android:clickable="true"
-            android:background="@color/white"
-            android:layout_marginBottom="1dp"
+            android:background="@drawable/level"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <ImageView
@@ -40,10 +41,10 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toStartOf="@id/tick1"
-                android:paddingTop="20dp"
-                android:paddingBottom="20dp"
+                android:paddingTop="24dp"
+                android:paddingBottom="24dp"
                 android:paddingStart="32dp"
-                android:text="Level 1"
+                android:text="Lesson 1"
                 android:textAlignment="center"
                 android:textAllCaps="true"
                 android:textColor="@color/colorPrimaryDark"
@@ -51,8 +52,8 @@
         </RelativeLayout>
         <RelativeLayout
             android:clickable="true"
-            android:background="@color/white"
-            android:layout_marginBottom="1dp"
+            android:background="@drawable/level"
+            android:layout_marginBottom="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
@@ -62,7 +63,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:src="@drawable/empty"/>
+                android:src="@drawable/empty" />
 
             <TextView
                 android:id="@+id/lesson2"
@@ -70,10 +71,10 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toStartOf="@id/tick2"
-                android:paddingTop="20dp"
-                android:paddingBottom="20dp"
+                android:paddingTop="24dp"
+                android:paddingBottom="24dp"
                 android:paddingStart="32dp"
-                android:text="Level 2"
+                android:text="Lesson 2"
                 android:textAlignment="center"
                 android:textAllCaps="true"
                 android:textColor="@color/colorPrimaryDark"
@@ -82,8 +83,8 @@
 
         <RelativeLayout
             android:clickable="true"
-            android:background="@color/white"
-            android:layout_marginBottom="1dp"
+            android:background="@drawable/level"
+            android:layout_marginBottom="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <ImageView
@@ -100,10 +101,10 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toStartOf="@id/tick3"
-                android:paddingTop="20dp"
-                android:paddingBottom="20dp"
+                android:paddingTop="24dp"
+                android:paddingBottom="24dp"
                 android:paddingStart="32dp"
-                android:text="Level 3"
+                android:text="Lesson 3"
                 android:textAlignment="center"
                 android:textAllCaps="true"
                 android:textColor="@color/colorPrimaryDark"
@@ -111,8 +112,8 @@
         </RelativeLayout>
         <RelativeLayout
             android:clickable="true"
-            android:background="@color/white"
-            android:layout_marginBottom="1dp"
+            android:background="@drawable/level"
+            android:layout_marginBottom="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
@@ -130,10 +131,10 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toStartOf="@id/tick4"
-                android:paddingTop="20dp"
-                android:paddingBottom="20dp"
+                android:paddingTop="24dp"
+                android:paddingBottom="24dp"
                 android:paddingStart="32dp"
-                android:text="Level 4"
+                android:text="Lesson 4"
                 android:textAlignment="center"
                 android:textAllCaps="true"
                 android:textColor="@color/colorPrimaryDark"
@@ -142,8 +143,8 @@
 
         <RelativeLayout
             android:clickable="true"
-            android:background="@color/white"
-            android:layout_marginBottom="1dp"
+            android:background="@drawable/level"
+            android:layout_marginBottom="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <ImageView
@@ -160,10 +161,10 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toStartOf="@id/tick5"
-                android:paddingTop="20dp"
-                android:paddingBottom="20dp"
+                android:paddingTop="24dp"
+                android:paddingBottom="24dp"
                 android:paddingStart="32dp"
-                android:text="Level 5"
+                android:text="Lesson 5"
                 android:textAlignment="center"
                 android:textAllCaps="true"
                 android:textColor="@color/colorPrimaryDark"
@@ -171,8 +172,8 @@
         </RelativeLayout>
         <RelativeLayout
             android:clickable="true"
-            android:background="@color/white"
-            android:layout_marginBottom="1dp"
+            android:background="@drawable/level"
+            android:layout_marginBottom="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
@@ -190,10 +191,10 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toStartOf="@id/tick6"
-                android:paddingTop="20dp"
-                android:paddingBottom="20dp"
+                android:paddingTop="24dp"
+                android:paddingBottom="24dp"
                 android:paddingStart="32dp"
-                android:text="Level 6"
+                android:text="Lesson 6"
                 android:textAlignment="center"
                 android:textAllCaps="true"
                 android:textColor="@color/colorPrimaryDark"
@@ -202,8 +203,8 @@
 
         <RelativeLayout
             android:clickable="true"
-            android:background="@color/white"
-            android:layout_marginBottom="1dp"
+            android:background="@drawable/level"
+            android:layout_marginBottom="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <ImageView
@@ -220,10 +221,10 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toStartOf="@id/tick7"
-                android:paddingTop="20dp"
-                android:paddingBottom="20dp"
+                android:paddingTop="24dp"
+                android:paddingBottom="24dp"
                 android:paddingStart="32dp"
-                android:text="Level 7"
+                android:text="Lesson 7"
                 android:textAlignment="center"
                 android:textAllCaps="true"
                 android:textColor="@color/colorPrimaryDark"
@@ -231,8 +232,8 @@
         </RelativeLayout>
         <RelativeLayout
             android:clickable="true"
-            android:background="@color/white"
-            android:layout_marginBottom="1dp"
+            android:background="@drawable/level"
+            android:layout_marginBottom="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
@@ -250,10 +251,10 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toStartOf="@id/tick8"
-                android:paddingTop="20dp"
-                android:paddingBottom="20dp"
+                android:paddingTop="24dp"
+                android:paddingBottom="24dp"
                 android:paddingStart="32dp"
-                android:text="Level 8"
+                android:text="Lesson 8"
                 android:textAlignment="center"
                 android:textAllCaps="true"
                 android:textColor="@color/colorPrimaryDark"
@@ -262,8 +263,8 @@
 
         <RelativeLayout
             android:clickable="true"
-            android:background="@color/white"
-            android:layout_marginBottom="1dp"
+            android:background="@drawable/level"
+            android:layout_marginBottom="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <ImageView
@@ -280,10 +281,10 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toStartOf="@id/tick9"
-                android:paddingTop="20dp"
-                android:paddingBottom="20dp"
+                android:paddingTop="24dp"
+                android:paddingBottom="24dp"
                 android:paddingStart="32dp"
-                android:text="Level 9"
+                android:text="Lesson 9"
                 android:textAlignment="center"
                 android:textAllCaps="true"
                 android:textColor="@color/colorPrimaryDark"
@@ -291,8 +292,8 @@
         </RelativeLayout>
         <RelativeLayout
             android:clickable="true"
-            android:background="@color/white"
-            android:layout_marginBottom="1dp"
+            android:background="@drawable/level"
+            android:layout_marginBottom="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
@@ -310,10 +311,10 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toStartOf="@id/tick10"
-                android:paddingTop="20dp"
-                android:paddingBottom="20dp"
+                android:paddingTop="24dp"
+                android:paddingBottom="24dp"
                 android:paddingStart="32dp"
-                android:text="Level 10"
+                android:text="Lesson 10"
                 android:textAlignment="center"
                 android:textAllCaps="true"
                 android:textColor="@color/colorPrimaryDark"
