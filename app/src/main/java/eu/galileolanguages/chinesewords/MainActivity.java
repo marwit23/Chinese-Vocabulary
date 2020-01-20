@@ -147,7 +147,7 @@ public boolean purchased;
             @Override
             public void onClick(View v) {
                 if (!purchased) bp.purchase(MainActivity.this, "all_levels");
-                else if (purchased){
+                else {
                     Intent intent = new Intent(MainActivity.this, LevelActivity.class);
                     intent.putExtra("levelNumber", 2 );
                     startActivity(intent);
@@ -160,7 +160,7 @@ public boolean purchased;
             @Override
             public void onClick(View v) {
                 if (!purchased) bp.purchase(MainActivity.this, "all_levels");
-                else if (purchased){
+                else {
                     Intent intent = new Intent(MainActivity.this, LevelActivity.class);
                     intent.putExtra("levelNumber", 3 );
                     startActivity(intent);
@@ -173,7 +173,7 @@ public boolean purchased;
             @Override
             public void onClick(View v) {
                 if (!purchased) bp.purchase(MainActivity.this, "all_levels");
-                else if (purchased){
+                else {
                     Intent intent = new Intent(MainActivity.this, LevelActivity.class);
                     intent.putExtra("levelNumber", 4 );
                     startActivity(intent);
@@ -186,7 +186,7 @@ public boolean purchased;
             @Override
             public void onClick(View v) {
                 if (!purchased) bp.purchase(MainActivity.this, "all_levels");
-                else if (purchased){
+                else {
                     Intent intent = new Intent(MainActivity.this, LevelActivity.class);
                     intent.putExtra("levelNumber", 5 );
                     startActivity(intent);
@@ -199,7 +199,7 @@ public boolean purchased;
             @Override
             public void onClick(View v) {
                 if (!purchased) bp.purchase(MainActivity.this, "all_levels");
-                else if (purchased){
+                else {
                     Intent intent = new Intent(MainActivity.this, LevelActivity.class);
                     intent.putExtra("levelNumber", 6 );
                     startActivity(intent);
@@ -212,7 +212,7 @@ public boolean purchased;
             @Override
             public void onClick(View v) {
                 if (!purchased) bp.purchase(MainActivity.this, "all_levels");
-                else if (purchased){
+                else {
                     Intent intent = new Intent(MainActivity.this, LevelActivity.class);
                     intent.putExtra("levelNumber", 7 );
                     startActivity(intent);
@@ -225,7 +225,7 @@ public boolean purchased;
             @Override
             public void onClick(View v) {
                 if (!purchased) bp.purchase(MainActivity.this, "all_levels");
-                else if (purchased){
+                else {
                     Intent intent = new Intent(MainActivity.this, LevelActivity.class);
                     intent.putExtra("levelNumber", 8 );
                     startActivity(intent);
@@ -238,7 +238,7 @@ public boolean purchased;
             @Override
             public void onClick(View v) {
                 if (!purchased) bp.purchase(MainActivity.this, "all_levels");
-                else if (purchased){
+                else {
                     Intent intent = new Intent(MainActivity.this, LevelActivity.class);
                     intent.putExtra("levelNumber", 9 );
                     startActivity(intent);
@@ -251,7 +251,7 @@ public boolean purchased;
             @Override
             public void onClick(View v) {
                 if (!purchased) bp.purchase(MainActivity.this, "all_levels");
-                else if (purchased){
+                else {
                     Intent intent = new Intent(MainActivity.this, LevelActivity.class);
                     intent.putExtra("levelNumber", 10 );
                     startActivity(intent);
@@ -264,7 +264,7 @@ public boolean purchased;
             @Override
             public void onClick(View v) {
                 if (!purchased) bp.purchase(MainActivity.this, "all_levels");
-                else if (purchased){
+                else {
                     Intent intent = new Intent(MainActivity.this, LevelActivity.class);
                     intent.putExtra("levelNumber", 11 );
                     startActivity(intent);
@@ -277,7 +277,7 @@ public boolean purchased;
             @Override
             public void onClick(View v) {
                 if (!purchased) bp.purchase(MainActivity.this, "all_levels");
-                else if (purchased){
+                else {
                     Intent intent = new Intent(MainActivity.this, LevelActivity.class);
                     intent.putExtra("levelNumber", 12 );
                     startActivity(intent);
@@ -290,7 +290,7 @@ public boolean purchased;
             @Override
             public void onClick(View v) {
                 if (!purchased) bp.purchase(MainActivity.this, "all_levels");
-                else if (purchased){
+                else {
                     Intent intent = new Intent(MainActivity.this, LevelActivity.class);
                     intent.putExtra("levelNumber", 13 );
                     startActivity(intent);
@@ -303,7 +303,7 @@ public boolean purchased;
             @Override
             public void onClick(View v) {
                 if (!purchased) bp.purchase(MainActivity.this, "all_levels");
-                else if (purchased){
+                else {
                     Intent intent = new Intent(MainActivity.this, LevelActivity.class);
                     intent.putExtra("levelNumber", 14 );
                     startActivity(intent);
@@ -316,7 +316,7 @@ public boolean purchased;
             @Override
             public void onClick(View v) {
                 if (!purchased) bp.purchase(MainActivity.this, "all_levels");
-                else if (purchased){
+                else {
                     Intent intent = new Intent(MainActivity.this, LevelActivity.class);
                     intent.putExtra("levelNumber", 15 );
                     startActivity(intent);
@@ -406,27 +406,7 @@ public boolean purchased;
 }
 
 /*
-payment, ok
-shared prefs, ok
-result, ok
-first open app, olać
-warning on press back, (without double open super) olać
-"show" button ok
-animation, okać
-correctly end activity, jeszcze nie wiem, ale chyba tak
-manifest allow deep reading ok
-end congratulations jeszcze nie ma
-rate ok
-sound on / off ok
-sounds ok
-allow updates after installation ok
-disable action bar on main ok
-
-Jak błąd to najpierw shake 1s, potem pokazuje poprawna odpowiedź 2s ok
-może wrongAnswer dać z całej bazy danych a nie tylko z tabelki
-le, guo, suo, , yu, znaleźć powtarzające się ok
-Treść w dialogu "rate this app" ok
-10 wyrazów
+end congratulations
 switch feedback
  */
 

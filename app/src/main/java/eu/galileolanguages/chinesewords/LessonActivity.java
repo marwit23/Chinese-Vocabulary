@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -382,7 +381,7 @@ public class LessonActivity extends AppCompatActivity {
             if (characters.size() == 0) {
                 SharedPreferences sharedPreferences = getSharedPreferences("shared", MODE_PRIVATE);
                 Set<String> hs = sharedPreferences.getStringSet("lessonComplete", new HashSet<String>());
-                Set<String> in = new HashSet<String>(hs);
+                Set<String> in = new HashSet<>(hs);
                 in.add("true" + lessonNumber);
                 sharedPreferences.edit().putStringSet("lessonComplete", in).commit();
                 finishActivity(12345);
