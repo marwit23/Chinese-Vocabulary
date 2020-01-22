@@ -2,6 +2,7 @@ package eu.galileolanguages.quiz2;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
@@ -12,6 +13,9 @@ import android.widget.TextView;
 
 import java.util.HashSet;
 import java.util.Set;
+
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 
 public class LevelActivity extends AppCompatActivity {
     TextView lesson1;
@@ -38,6 +42,7 @@ public class LevelActivity extends AppCompatActivity {
 
     public int levelNumber;
     Set<String> set2 = new HashSet<>();
+    int finish;
 
 
 
@@ -100,13 +105,22 @@ public class LevelActivity extends AppCompatActivity {
             if (set2.contains("true" + (i+9))) tick9.setImageResource(android.R.drawable.btn_star_big_on);
             if (set2.contains("true" + (i+10))) tick10.setImageResource(android.R.drawable.btn_star_big_on);
 
+            for(int x = 1; x<=150; x++){
+                if(set2.contains("true" + x))finish =x;
+                else break;
+            }
+
+            if(finish==150){
+                showDialog();
+            }
+
 
         lesson1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(LevelActivity.this, LessonActivity.class);
                     intent.putExtra("lessonNumber", (levelNumber * 10 - 10)+1 );
-                startActivityForResult(intent, 12345);
+                startActivity(intent);
             }
         });
 
@@ -115,7 +129,7 @@ public class LevelActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(LevelActivity.this, LessonActivity.class);
                 intent.putExtra("lessonNumber", (levelNumber * 10 - 10)+2 );
-                startActivityForResult(intent, 12345);
+                startActivity(intent);
             }
         });
 
@@ -124,7 +138,7 @@ public class LevelActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(LevelActivity.this, LessonActivity.class);
                 intent.putExtra("lessonNumber", (levelNumber * 10 - 10)+3 );
-                startActivityForResult(intent, 12345);
+                startActivity(intent);
             }
         });
 
@@ -133,7 +147,7 @@ public class LevelActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(LevelActivity.this, LessonActivity.class);
                 intent.putExtra("lessonNumber", (levelNumber * 10 - 10)+4 );
-                startActivityForResult(intent, 12345);
+                startActivity(intent);
             }
         });
 
@@ -142,7 +156,7 @@ public class LevelActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(LevelActivity.this, LessonActivity.class);
                 intent.putExtra("lessonNumber", (levelNumber * 10 - 10)+5 );
-                startActivityForResult(intent, 12345);
+                startActivity(intent);
             }
         });
 
@@ -151,7 +165,7 @@ public class LevelActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(LevelActivity.this, LessonActivity.class);
                 intent.putExtra("lessonNumber", (levelNumber * 10 - 10)+6 );
-                startActivityForResult(intent, 12345);
+                startActivity(intent);
             }
         });
 
@@ -160,7 +174,7 @@ public class LevelActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(LevelActivity.this, LessonActivity.class);
                 intent.putExtra("lessonNumber", (levelNumber * 10 - 10)+7 );
-                startActivityForResult(intent, 12345);
+                startActivity(intent);
             }
         });
 
@@ -169,7 +183,7 @@ public class LevelActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(LevelActivity.this, LessonActivity.class);
                 intent.putExtra("lessonNumber", (levelNumber * 10 - 10)+8 );
-                startActivityForResult(intent, 12345);
+                startActivity(intent);
             }
         });
 
@@ -178,7 +192,7 @@ public class LevelActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(LevelActivity.this, LessonActivity.class);
                 intent.putExtra("lessonNumber", (levelNumber * 10 - 10)+9 );
-                startActivityForResult(intent, 12345);
+                startActivity(intent);
             }
         });
 
@@ -187,7 +201,7 @@ public class LevelActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(LevelActivity.this, LessonActivity.class);
                 intent.putExtra("lessonNumber", (levelNumber * 10 - 10)+10 );
-                startActivityForResult(intent, 12345);
+                startActivity(intent);
             }
         });
 
@@ -204,4 +218,17 @@ public class LevelActivity extends AppCompatActivity {
         finish();
         startActivity(getIntent());
     }
+    protected void showDialog(){
+    AlertDialog alertDialog = new AlertDialog.Builder(LevelActivity.this).create();
+    alertDialog.setTitle("Congratulations!");
+    alertDialog.setMessage("You finished all lessons. You are awesome!");
+    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+            new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+    alertDialog.show();
+    }
+
 }

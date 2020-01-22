@@ -373,19 +373,21 @@ public class LessonActivity extends AppCompatActivity {
             pinyin.remove(randomizerA);
             translation.remove(randomizerA);
             scoreList.remove(randomizerA);
+
         }
 
     }
 
     private void updateQuestionCorrectB() {
-            if (characters.size() == 0) {
-                SharedPreferences sharedPreferences = getSharedPreferences("shared", MODE_PRIVATE);
-                Set<String> hs = sharedPreferences.getStringSet("lessonComplete", new HashSet<String>());
-                Set<String> in = new HashSet<>(hs);
-                in.add("true" + lessonNumber);
-                sharedPreferences.edit().putStringSet("lessonComplete", in).commit();
-                finishActivity(12345);
-            }
+        if (characters.size() < 1) {
+            SharedPreferences sharedPreferences = getSharedPreferences("shared", MODE_PRIVATE);
+            Set<String> hs = sharedPreferences.getStringSet("lessonComplete", new HashSet<String>());
+            Set<String> in = new HashSet<>(hs);
+            in.add("true" + lessonNumber);
+            sharedPreferences.edit().putStringSet("lessonComplete", in).commit();
+            killActivity();
+        } else {
+
             randomizerA = randomizerA();
             wrongAnswer1 = new Random().nextInt(3000);
             wrongAnswer2 = new Random().nextInt(3000);
@@ -424,7 +426,7 @@ public class LessonActivity extends AppCompatActivity {
             mChoice1.setEnabled(true);
             mChoice2.setEnabled(true);
             mChoice3.setEnabled(true);
-
+        }
     }
 
     private void updateQuestionWrongA() {
@@ -537,6 +539,10 @@ public class LessonActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("shared", MODE_PRIVATE);
         switchOnOff = sharedPreferences.getBoolean("switch1", true);
         mSound.setChecked(switchOnOff);
+    }
+
+    private void killActivity() {
+        finish();
     }
 
 }
