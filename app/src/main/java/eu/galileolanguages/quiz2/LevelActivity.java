@@ -2,6 +2,7 @@ package eu.galileolanguages.quiz2;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -210,7 +211,7 @@ public class LevelActivity extends AppCompatActivity {
         quiz.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(LevelActivity.this, LessonActivity.class);
+                Intent intent = new Intent(LevelActivity.this, QuizActivity.class);
                 intent.putExtra("levelNumber", levelNumber);
                 startActivity(intent);
             }

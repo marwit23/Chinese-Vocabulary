@@ -37,6 +37,7 @@ public class QuizActivity extends AppCompatActivity {
     private Button mChoice3;
     private Switch mSound;
     private int randomizerA;
+    private int randomizerA50;
     private List<String> characters;
     private List<String> pinyin;
     private List<String> translation;
@@ -79,7 +80,7 @@ public class QuizActivity extends AppCompatActivity {
         pinyin50 = new ArrayList<>();
         translation50 = new ArrayList<>();
         wrongTranslation = new ArrayList<>();
-        randomizerA = new Random().nextInt(200);
+        randomizerA50 = new Random().nextInt(50);
         scoreList = new ArrayList<>();
 
         loadSoundData();
@@ -93,30 +94,27 @@ public class QuizActivity extends AppCompatActivity {
         populateArrays();
         databaseAccess.close();
         for (int x = 0; x<50; x++){
+            randomizerA = new Random().nextInt(200);
             characters50.add(characters.get(randomizerA));
             pinyin50.add(pinyin.get(randomizerA));
             translation50.add(translation.get(randomizerA));
         }
 
 
-        //for (int x=0; x < 20; x++){
-        //    scoreList.add(0);
-        //}
-
 
 
         mScore.setText("Correct:" + correctCount);
         mArrayLeft.setText("Words left: " + characters50.size());
 
-        mCharacters.setText(characters50.get(randomizerA));
-        mPinyin.setText(pinyin50.get(randomizerA));
+        mCharacters.setText(characters50.get(randomizerA50));
+        mPinyin.setText(pinyin50.get(randomizerA50));
 
 
 
         wrongAnswer1 = new Random().nextInt(3000);
         wrongAnswer2 = new Random().nextInt(3000);
 
-        answersArray.add(translation50.get(randomizerA));
+        answersArray.add(translation50.get(randomizerA50));
         answersArray.add(wrongTranslation.get(wrongAnswer1));
         answersArray.add(wrongTranslation.get(wrongAnswer2));
 
@@ -154,7 +152,7 @@ public class QuizActivity extends AppCompatActivity {
         mChoice1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(mChoice1.getText() == translation50.get(randomizerA)){
+                if(mChoice1.getText() == translation50.get(randomizerA50)){
                     updateQuestionCorrectA();
                     mChoice1.setBackgroundResource(R.drawable.button2);
                     mChoice1.setTextColor(Color.parseColor("#BE000000"));
@@ -165,14 +163,14 @@ public class QuizActivity extends AppCompatActivity {
                         }
                     }, 2000);
                 }
-                else if(mChoice2.getText() == translation50.get(randomizerA)) {
+                else if(mChoice2.getText() == translation50.get(randomizerA50)) {
                     if (switchOnOff == true) playSoundWrong();
+                    updateQuestionWrongA();
                     Animation animShake = AnimationUtils.loadAnimation(QuizActivity.this, R.anim.shake);
                     mChoice1.startAnimation(animShake);
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            updateQuestionWrongA();
                             mChoice2.setBackgroundResource(R.drawable.button2);
                             mChoice2.setTextColor(Color.parseColor("#BE000000"));
                         }
@@ -186,14 +184,14 @@ public class QuizActivity extends AppCompatActivity {
                     }, 2500);
 
                 }
-                else if(mChoice3.getText() == translation50.get(randomizerA)) {
+                else if(mChoice3.getText() == translation50.get(randomizerA50)) {
                     if (switchOnOff == true) playSoundWrong();
+                    updateQuestionWrongA();
                     Animation animShake = AnimationUtils.loadAnimation(QuizActivity.this, R.anim.shake);
                     mChoice1.startAnimation(animShake);
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            updateQuestionWrongA();
                             mChoice3.setBackgroundResource(R.drawable.button2);
                             mChoice3.setTextColor(Color.parseColor("#BE000000"));
                         }
@@ -213,7 +211,7 @@ public class QuizActivity extends AppCompatActivity {
         mChoice2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(mChoice2.getText() == translation50.get(randomizerA)){
+                if(mChoice2.getText() == translation50.get(randomizerA50)){
                     updateQuestionCorrectA();
                     mChoice2.setBackgroundResource(R.drawable.button2);
                     mChoice2.setTextColor(Color.parseColor("#BE000000"));
@@ -224,14 +222,14 @@ public class QuizActivity extends AppCompatActivity {
                         }
                     }, 2000);
                 }
-                else if(mChoice1.getText() == translation50.get(randomizerA)) {
+                else if(mChoice1.getText() == translation50.get(randomizerA50)) {
                     if (switchOnOff == true) playSoundWrong();
+                    updateQuestionWrongA();
                     Animation animShake = AnimationUtils.loadAnimation(QuizActivity.this, R.anim.shake);
                     mChoice2.startAnimation(animShake);
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            updateQuestionWrongA();
                             mChoice1.setBackgroundResource(R.drawable.button2);
                             mChoice1.setTextColor(Color.parseColor("#BE000000"));
                         }
@@ -245,14 +243,14 @@ public class QuizActivity extends AppCompatActivity {
                     }, 2500);
 
                 }
-                else if(mChoice3.getText() == translation50.get(randomizerA)) {
+                else if(mChoice3.getText() == translation50.get(randomizerA50)) {
                     if (switchOnOff == true) playSoundWrong();
+                    updateQuestionWrongA();
                     Animation animShake = AnimationUtils.loadAnimation(QuizActivity.this, R.anim.shake);
                     mChoice2.startAnimation(animShake);
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            updateQuestionWrongA();
                             mChoice3.setBackgroundResource(R.drawable.button2);
                             mChoice3.setTextColor(Color.parseColor("#BE000000"));
                         }
@@ -272,7 +270,7 @@ public class QuizActivity extends AppCompatActivity {
         mChoice3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(mChoice3.getText() == translation50.get(randomizerA)){
+                if(mChoice3.getText() == translation50.get(randomizerA50)){
                     updateQuestionCorrectA();
                     mChoice3.setBackgroundResource(R.drawable.button2);
                     mChoice3.setTextColor(Color.parseColor("#BE000000"));
@@ -283,14 +281,14 @@ public class QuizActivity extends AppCompatActivity {
                         }
                     }, 2000);
                 }
-                else if(mChoice1.getText() == translation50.get(randomizerA)) {
+                else if(mChoice1.getText() == translation50.get(randomizerA50)) {
                     if (switchOnOff == true) playSoundWrong();
+                    updateQuestionWrongA();
                     Animation animShake = AnimationUtils.loadAnimation(QuizActivity.this, R.anim.shake);
                     mChoice3.startAnimation(animShake);
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            updateQuestionWrongA();
                             mChoice1.setBackgroundResource(R.drawable.button2);
                             mChoice1.setTextColor(Color.parseColor("#BE000000"));
                         }
@@ -304,14 +302,14 @@ public class QuizActivity extends AppCompatActivity {
                     }, 2500);
 
                 }
-                else if(mChoice2.getText() == translation50.get(randomizerA)) {
+                else if(mChoice2.getText() == translation50.get(randomizerA50)) {
                     if (switchOnOff == true) playSoundWrong();
+                    updateQuestionWrongA();
                     Animation animShake = AnimationUtils.loadAnimation(QuizActivity.this, R.anim.shake);
                     mChoice3.startAnimation(animShake);
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            updateQuestionWrongA();
                             mChoice2.setBackgroundResource(R.drawable.button2);
                             mChoice2.setTextColor(Color.parseColor("#BE000000"));
                         }
@@ -339,9 +337,9 @@ public class QuizActivity extends AppCompatActivity {
         mChoice1.setEnabled(false);
         mChoice2.setEnabled(false);
         mChoice3.setEnabled(false);
-        characters50.remove(randomizerA);
-        pinyin50.remove(randomizerA);
-        translation50.remove(randomizerA);
+        characters50.remove(randomizerA50);
+        pinyin50.remove(randomizerA50);
+        translation50.remove(randomizerA50);
         correctCount++;
 
 
@@ -349,17 +347,17 @@ public class QuizActivity extends AppCompatActivity {
 
     private void updateQuestionCorrectB() {
         if (characters50.size() < 1) {
-            killActivity();
+            showQuizDialog();
         } else {
 
-            randomizerA = randomizerA();
+            randomizerA50 = randomizerA();
             wrongAnswer1 = new Random().nextInt(3000);
             wrongAnswer2 = new Random().nextInt(3000);
-            mCharacters.setText(characters50.get(randomizerA));
-            mPinyin.setText(pinyin50.get(randomizerA));
+            mCharacters.setText(characters50.get(randomizerA50));
+            mPinyin.setText(pinyin50.get(randomizerA50));
 
             answersArray = new ArrayList<>();
-            answersArray.add(translation50.get(randomizerA));
+            answersArray.add(translation50.get(randomizerA50));
             answersArray.add(wrongTranslation.get(wrongAnswer1));
             answersArray.add(wrongTranslation.get(wrongAnswer2));
 
@@ -397,25 +395,25 @@ public class QuizActivity extends AppCompatActivity {
         mChoice1.setEnabled(false);
         mChoice2.setEnabled(false);
         mChoice3.setEnabled(false);
-        characters50.remove(randomizerA);
-        pinyin50.remove(randomizerA);
-        translation50.remove(randomizerA);
+        characters50.remove(randomizerA50);
+        pinyin50.remove(randomizerA50);
+        translation50.remove(randomizerA50);
     }
 
     private void updateQuestionWrongB(){
         if (characters50.size() < 1) {
 
-            killActivity();
+            showQuizDialog();
         } else {
 
-            randomizerA = randomizerA();
+            randomizerA50 = randomizerA();
             wrongAnswer1 = new Random().nextInt(3000);
             wrongAnswer2 = new Random().nextInt(3000);
-            mCharacters.setText(characters.get(randomizerA));
-            mPinyin.setText(pinyin.get(randomizerA));
+            mCharacters.setText(characters50.get(randomizerA50));
+            mPinyin.setText(pinyin50.get(randomizerA50));
 
             answersArray = new ArrayList<>();
-            answersArray.add(translation.get(randomizerA));
+            answersArray.add(translation50.get(randomizerA50));
             answersArray.add(wrongTranslation.get(wrongAnswer1));
             answersArray.add(wrongTranslation.get(wrongAnswer2));
 
@@ -469,8 +467,8 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     private int randomizerA(){
-        randomizerB = new Random().nextInt(characters.size());
-        if (characters.size()>1 && randomizerB == randomizerA) randomizerB = new Random().nextInt(characters.size());
+        randomizerB = new Random().nextInt(characters50.size());
+        if (characters50.size()>1 && randomizerB == randomizerA50) randomizerB = new Random().nextInt(characters50.size());
         return randomizerB;
     }
 
@@ -513,23 +511,45 @@ public class QuizActivity extends AppCompatActivity {
     private void killActivity() {
         finish();
     }
+
+    public void reload() {
+        Intent intent = getIntent();
+        overridePendingTransition(0, 0);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        finish();
+        overridePendingTransition(0, 0);
+        startActivity(intent);
+    }
+
     protected void showQuizDialog(){
-        AlertDialog alertDialog = new AlertDialog.Builder(QuizActivity.this).create();
-        alertDialog.setTitle("Your score is: " + (correctCount*2) + "%");
+        AlertDialog quizAlertDialog = new AlertDialog.Builder(QuizActivity.this).create();
+        quizAlertDialog.setTitle("Your score is: " + (correctCount*2) + "%");
         if (correctCount<=20)
-        alertDialog.setMessage("Your result is so so.");
+        quizAlertDialog.setMessage("Don't worry, practice makes perfect.");
         else if (correctCount>20&&correctCount<=40)
-            alertDialog.setMessage("That is pretty good");
+            quizAlertDialog.setMessage("You're pretty good");
         else if (correctCount>40)
-            alertDialog.setMessage("You are awesome!");
-        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+            quizAlertDialog.setMessage("You are awesome!");
+        quizAlertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Go back",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                         killActivity();
                     }
                 });
-        alertDialog.show();
+        quizAlertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Try again",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                reload();
+                            }
+                        },1000);
+                    }
+                });
+        quizAlertDialog.show();
     }
 
 }

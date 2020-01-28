@@ -155,12 +155,12 @@ public class LessonActivity extends AppCompatActivity {
                 }
                 else if(mChoice2.getText() == translation.get(randomizerA)) {
                     if (switchOnOff == true) playSoundWrong();
+                    updateQuestionWrongA();
                     Animation animShake = AnimationUtils.loadAnimation(LessonActivity.this, R.anim.shake);
                     mChoice1.startAnimation(animShake);
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            updateQuestionWrongA();
                             mChoice2.setBackgroundResource(R.drawable.button2);
                             mChoice2.setTextColor(Color.parseColor("#BE000000"));
                         }
@@ -176,12 +176,12 @@ public class LessonActivity extends AppCompatActivity {
                 }
                 else if(mChoice3.getText() == translation.get(randomizerA)) {
                     if (switchOnOff == true) playSoundWrong();
+                    updateQuestionWrongA();
                     Animation animShake = AnimationUtils.loadAnimation(LessonActivity.this, R.anim.shake);
                     mChoice1.startAnimation(animShake);
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            updateQuestionWrongA();
                             mChoice3.setBackgroundResource(R.drawable.button2);
                             mChoice3.setTextColor(Color.parseColor("#BE000000"));
                         }
@@ -214,12 +214,12 @@ public class LessonActivity extends AppCompatActivity {
                 }
                 else if(mChoice1.getText() == translation.get(randomizerA)) {
                     if (switchOnOff == true) playSoundWrong();
+                    updateQuestionWrongA();
                     Animation animShake = AnimationUtils.loadAnimation(LessonActivity.this, R.anim.shake);
                     mChoice2.startAnimation(animShake);
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            updateQuestionWrongA();
                             mChoice1.setBackgroundResource(R.drawable.button2);
                             mChoice1.setTextColor(Color.parseColor("#BE000000"));
                         }
@@ -235,12 +235,12 @@ public class LessonActivity extends AppCompatActivity {
                 }
                 else if(mChoice3.getText() == translation.get(randomizerA)) {
                     if (switchOnOff == true) playSoundWrong();
+                    updateQuestionWrongA();
                     Animation animShake = AnimationUtils.loadAnimation(LessonActivity.this, R.anim.shake);
                     mChoice2.startAnimation(animShake);
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            updateQuestionWrongA();
                             mChoice3.setBackgroundResource(R.drawable.button2);
                             mChoice3.setTextColor(Color.parseColor("#BE000000"));
                         }
@@ -273,12 +273,12 @@ public class LessonActivity extends AppCompatActivity {
                 }
                 else if(mChoice1.getText() == translation.get(randomizerA)) {
                     if (switchOnOff == true) playSoundWrong();
+                    updateQuestionWrongA();
                     Animation animShake = AnimationUtils.loadAnimation(LessonActivity.this, R.anim.shake);
                     mChoice3.startAnimation(animShake);
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            updateQuestionWrongA();
                             mChoice1.setBackgroundResource(R.drawable.button2);
                             mChoice1.setTextColor(Color.parseColor("#BE000000"));
                         }
@@ -294,12 +294,12 @@ public class LessonActivity extends AppCompatActivity {
                 }
                 else if(mChoice2.getText() == translation.get(randomizerA)) {
                     if (switchOnOff == true) playSoundWrong();
+                    updateQuestionWrongA();
                     Animation animShake = AnimationUtils.loadAnimation(LessonActivity.this, R.anim.shake);
                     mChoice3.startAnimation(animShake);
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            updateQuestionWrongA();
                             mChoice2.setBackgroundResource(R.drawable.button2);
                             mChoice2.setTextColor(Color.parseColor("#BE000000"));
                         }
@@ -319,6 +319,7 @@ public class LessonActivity extends AppCompatActivity {
         mHelp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mHelp.setEnabled(false);
                 if(mChoice1.getText() == translation.get(randomizerA)){
                     mChoice1.setBackgroundResource(R.drawable.button4);
                     mChoice1.setTextColor(Color.parseColor("#000000"));
@@ -367,6 +368,7 @@ public class LessonActivity extends AppCompatActivity {
         mChoice1.setEnabled(false);
         mChoice2.setEnabled(false);
         mChoice3.setEnabled(false);
+        mHelp.setEnabled(false);
 
         if (score == 3) {
             characters.remove(randomizerA);
@@ -426,6 +428,7 @@ public class LessonActivity extends AppCompatActivity {
             mChoice1.setEnabled(true);
             mChoice2.setEnabled(true);
             mChoice3.setEnabled(true);
+            mHelp.setEnabled(true);
         }
     }
 
@@ -436,6 +439,7 @@ public class LessonActivity extends AppCompatActivity {
         mChoice1.setEnabled(false);
         mChoice2.setEnabled(false);
         mChoice3.setEnabled(false);
+        mHelp.setEnabled(false);
     }
 
     private void updateQuestionWrongB(){
@@ -476,6 +480,7 @@ public class LessonActivity extends AppCompatActivity {
         mChoice1.setEnabled(true);
         mChoice2.setEnabled(true);
         mChoice3.setEnabled(true);
+        mHelp.setEnabled(true);
     }
 
     private void populateArrays() {
