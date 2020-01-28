@@ -28,6 +28,7 @@ public class LevelActivity extends AppCompatActivity {
     TextView lesson8;
     TextView lesson9;
     TextView lesson10;
+    TextView quiz;
 
     ImageView tick1;
     ImageView tick2;
@@ -65,6 +66,7 @@ public class LevelActivity extends AppCompatActivity {
         lesson8 = findViewById(R.id.lesson8);
         lesson9 = findViewById(R.id.lesson9);
         lesson10 = findViewById(R.id.lesson10);
+        quiz = findViewById(R.id.quiz);
 
         tick1 = findViewById(R.id.tick1);
         tick2 = findViewById(R.id.tick2);
@@ -201,6 +203,15 @@ public class LevelActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(LevelActivity.this, LessonActivity.class);
                 intent.putExtra("lessonNumber", (levelNumber * 10 - 10)+10 );
+                startActivity(intent);
+            }
+        });
+
+        quiz.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LevelActivity.this, LessonActivity.class);
+                intent.putExtra("levelNumber", levelNumber);
                 startActivity(intent);
             }
         });
