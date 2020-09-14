@@ -1,12 +1,12 @@
 package eu.galileolanguages.quiz2;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -15,15 +15,14 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
-import android.os.*;
-
-import eu.galileolanguages.quiz2.R;
 
 public class LessonActivity extends AppCompatActivity {
     private TextView mScore;
@@ -35,28 +34,48 @@ public class LessonActivity extends AppCompatActivity {
     private Button mChoice3;
     private Button mHelp;
     private Switch mSound;
-    private int randomizerA;
-    private List<String> characters;
-    private List<String> pinyin;
-    private List<String> translation;
-    private List<String> wrongTranslation;
-    private List<Integer> scoreList;
+    private int randomizerA = new Random().nextInt(20);
+    private List<String> characters = new ArrayList<>();
+    private List<String> pinyin = new ArrayList<>();
+    private List<String> translation = new ArrayList<>();
+    private List<String> wrongTranslation = new ArrayList<>();
+    private List<Integer> scoreList = new ArrayList<>();
     private Integer score;
-    private List<String> answersArray;
-    private int wrongAnswer1;
-    private int wrongAnswer2;
     DatabaseAccess databaseAccess;
     public int lessonNumber;
-    private int randomizerB;
     MediaPlayer mediaPlayer;
     public boolean switchOnOff;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // General setup------------------------------------------------------------------------------------
+
         setContentView(R.layout.activity_lesson);
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
+        Intent intent = getIntent();
+        lessonNumber = intent.getIntExtra("lessonNumber", 1);
+        databaseAccess = DatabaseAccess.getInstance(getApplicationContext());
+        databaseAccess.open();
+        populateArrays();
+        databaseAccess.close();
+        mSound = findViewById(R.id.soundOnOff);
+        loadSoundData();
+        mSound.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    switchOnOff = true;
+                    saveData();
+                } else {
+                    switchOnOff = false;
+                    saveData();
+                }
+            }
+        });
+
+        // Setting views----------------------------------------------------------------------------
 
         mScore = findViewById(R.id.score);
         mArrayLeft = findViewById(R.id.arrayLeft);
@@ -66,283 +85,66 @@ public class LessonActivity extends AppCompatActivity {
         mChoice2 = findViewById(R.id.choice2);
         mChoice3 = findViewById(R.id.choice3);
         mHelp = findViewById(R.id.hint);
-        mSound = findViewById(R.id.soundOnOff);
-        answersArray = new ArrayList<>();
-        characters = new ArrayList<>();
-        pinyin = new ArrayList<>();
-        translation = new ArrayList<>();
-        wrongTranslation = new ArrayList<>();
-        randomizerA = new Random().nextInt(20);
-        scoreList = new ArrayList<>();
 
-        loadSoundData();
+        // Loading data-----------------------------------------------------------------------------
 
-        Intent intent = getIntent();
-        lessonNumber = intent.getIntExtra("lessonNumber", 1);
+        for (int x = 0; x < 20; x++) { scoreList.add(0); }
+        updateQuestion();
 
+        // Setting listeners------------------------------------------------------------------------
 
-        databaseAccess = DatabaseAccess.getInstance(getApplicationContext());
-        databaseAccess.open();
-        populateArrays();
-        databaseAccess.close();
+        final Button[] choiceButtons = {mChoice1, mChoice2, mChoice3};
+        for (int i = 0; i < choiceButtons.length; i++) {
+            final int finalI = i;
+            choiceButtons[i].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                        if(choiceButtons[finalI].getText() == translation.get(randomizerA)){
+                            updateQuestionCorrectA();
+                            choiceButtons[finalI].setBackgroundResource(R.drawable.button2);
+                            choiceButtons[finalI].setTextColor(Color.parseColor("#BE000000"));
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    updateQuestionCorrectB();
+                                }
+                            }, 2000);
 
-
-        for (int x=0; x < 20; x++){
-            scoreList.add(0);
+                        }else {
+                            if (switchOnOff == true) playSoundWrong();
+                            updateQuestionWrongA();
+                            Animation animShake = AnimationUtils.loadAnimation(LessonActivity.this, R.anim.shake);
+                            choiceButtons[finalI].startAnimation(animShake);
+                            for(int j = 0; j < 3; j++) {
+                                final int finalJ = j;
+                                if(choiceButtons[j].getText() == translation.get(randomizerA)){
+                                    new Handler().postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            choiceButtons[finalJ].setBackgroundResource(R.drawable.button2);
+                                            choiceButtons[finalJ].setTextColor(Color.parseColor("#BE000000"));
+                                        }
+                                    }, 1000);
+                                }
+                            }
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    updateQuestionWrongB();
+                                }
+                            }, 2500);
+                        }
+                }
+            });
         }
-
-
-
-        mScore.setText("This word: " + scoreList.get(randomizerA) +"/3");
-        mArrayLeft.setText("Words left: " + characters.size());
-
-        mCharacters.setText(characters.get(randomizerA));
-        mPinyin.setText(pinyin.get(randomizerA));
-
-
-
-        wrongAnswer1 = new Random().nextInt(3000);
-        wrongAnswer2 = new Random().nextInt(3000);
-
-        answersArray.add(translation.get(randomizerA));
-        answersArray.add(wrongTranslation.get(wrongAnswer1));
-        answersArray.add(wrongTranslation.get(wrongAnswer2));
-
-        if (answersArray.get(1).equals(answersArray.get(0))){
-            answersArray.set(1, wrongTranslation.get(new Random().nextInt(3000)));
-        }
-
-        if (answersArray.get(2).equals(answersArray.get(0)) || answersArray.get(2).equals(answersArray.get(1))){
-            answersArray.set(2, wrongTranslation.get(new Random().nextInt(3000)));
-        }
-
-        Collections.shuffle(answersArray);
-
-        mChoice1.setText(answersArray.get(0));
-        mChoice2.setText(answersArray.get(1));
-        mChoice3.setText(answersArray.get(2));
-
-
-
-        mSound.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    switchOnOff = true;
-                    saveData();
-                }
-                else {
-                    switchOnOff = false;
-                    saveData();
-                }
-            }
-        });
-
-
-        mChoice1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(mChoice1.getText() == translation.get(randomizerA)){
-                    updateQuestionCorrectA();
-                    mChoice1.setBackgroundResource(R.drawable.button2);
-                    mChoice1.setTextColor(Color.parseColor("#BE000000"));
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            updateQuestionCorrectB();
-                        }
-                    }, 2000);
-                }
-                else if(mChoice2.getText() == translation.get(randomizerA)) {
-                    if (switchOnOff == true) playSoundWrong();
-                    updateQuestionWrongA();
-                    Animation animShake = AnimationUtils.loadAnimation(LessonActivity.this, R.anim.shake);
-                    mChoice1.startAnimation(animShake);
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            mChoice2.setBackgroundResource(R.drawable.button2);
-                            mChoice2.setTextColor(Color.parseColor("#BE000000"));
-                        }
-                    }, 1000);
-
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            updateQuestionWrongB();
-                        }
-                    }, 2500);
-
-                }
-                else if(mChoice3.getText() == translation.get(randomizerA)) {
-                    if (switchOnOff == true) playSoundWrong();
-                    updateQuestionWrongA();
-                    Animation animShake = AnimationUtils.loadAnimation(LessonActivity.this, R.anim.shake);
-                    mChoice1.startAnimation(animShake);
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            mChoice3.setBackgroundResource(R.drawable.button2);
-                            mChoice3.setTextColor(Color.parseColor("#BE000000"));
-                        }
-                    }, 1000);
-
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            updateQuestionWrongB();
-                        }
-                    }, 2500);
-
-                }
-                }
-        });
-
-        mChoice2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(mChoice2.getText() == translation.get(randomizerA)){
-                    updateQuestionCorrectA();
-                    mChoice2.setBackgroundResource(R.drawable.button2);
-                    mChoice2.setTextColor(Color.parseColor("#BE000000"));
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            updateQuestionCorrectB();
-                        }
-                    }, 2000);
-                }
-                else if(mChoice1.getText() == translation.get(randomizerA)) {
-                    if (switchOnOff == true) playSoundWrong();
-                    updateQuestionWrongA();
-                    Animation animShake = AnimationUtils.loadAnimation(LessonActivity.this, R.anim.shake);
-                    mChoice2.startAnimation(animShake);
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            mChoice1.setBackgroundResource(R.drawable.button2);
-                            mChoice1.setTextColor(Color.parseColor("#BE000000"));
-                        }
-                    }, 1000);
-
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            updateQuestionWrongB();
-                        }
-                    }, 2500);
-
-                }
-                else if(mChoice3.getText() == translation.get(randomizerA)) {
-                    if (switchOnOff == true) playSoundWrong();
-                    updateQuestionWrongA();
-                    Animation animShake = AnimationUtils.loadAnimation(LessonActivity.this, R.anim.shake);
-                    mChoice2.startAnimation(animShake);
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            mChoice3.setBackgroundResource(R.drawable.button2);
-                            mChoice3.setTextColor(Color.parseColor("#BE000000"));
-                        }
-                    }, 1000);
-
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            updateQuestionWrongB();
-                        }
-                    }, 2500);
-
-                }
-            }
-        });
-
-        mChoice3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(mChoice3.getText() == translation.get(randomizerA)){
-                    updateQuestionCorrectA();
-                    mChoice3.setBackgroundResource(R.drawable.button2);
-                    mChoice3.setTextColor(Color.parseColor("#BE000000"));
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            updateQuestionCorrectB();
-                        }
-                    }, 2000);
-                }
-                else if(mChoice1.getText() == translation.get(randomizerA)) {
-                    if (switchOnOff == true) playSoundWrong();
-                    updateQuestionWrongA();
-                    Animation animShake = AnimationUtils.loadAnimation(LessonActivity.this, R.anim.shake);
-                    mChoice3.startAnimation(animShake);
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            mChoice1.setBackgroundResource(R.drawable.button2);
-                            mChoice1.setTextColor(Color.parseColor("#BE000000"));
-                        }
-                    }, 1000);
-
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            updateQuestionWrongB();
-                        }
-                    }, 2500);
-
-                }
-                else if(mChoice2.getText() == translation.get(randomizerA)) {
-                    if (switchOnOff == true) playSoundWrong();
-                    updateQuestionWrongA();
-                    Animation animShake = AnimationUtils.loadAnimation(LessonActivity.this, R.anim.shake);
-                    mChoice3.startAnimation(animShake);
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            mChoice2.setBackgroundResource(R.drawable.button2);
-                            mChoice2.setTextColor(Color.parseColor("#BE000000"));
-                        }
-                    }, 1000);
-
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            updateQuestionWrongB();
-                        }
-                    }, 2500);
-
-                }
-            }
-        });
-
         mHelp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mHelp.setEnabled(false);
-                if(mChoice1.getText() == translation.get(randomizerA)){
-                    mChoice1.setBackgroundResource(R.drawable.button4);
-                    mChoice1.setTextColor(Color.parseColor("#000000"));
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            updateQuestionWrongB();
-                        }
-                    }, 2000);
-                }
-                else if(mChoice2.getText() == translation.get(randomizerA)){
-                    mChoice2.setBackgroundResource(R.drawable.button4);
-                    mChoice2.setTextColor(Color.parseColor("#000000"));
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            updateQuestionWrongB();
-                        }
-                    }, 2000);
-                }
-                else if(mChoice3.getText() == translation.get(randomizerA)){
-                    mChoice3.setBackgroundResource(R.drawable.button4);
-                    mChoice3.setTextColor(Color.parseColor("#000000"));
+                for(int i = 0; i < choiceButtons.length; i++)
+                if (choiceButtons[i].getText() == translation.get(randomizerA)) {
+                    choiceButtons[i].setBackgroundResource(R.drawable.button4);
+                    choiceButtons[i].setTextColor(Color.parseColor("#000000"));
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -352,32 +154,26 @@ public class LessonActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
 
-
-
-
+    // Quiz methods---------------------------------------------------------------------------------
 
     private void updateQuestionCorrectA() {
         score = scoreList.get(randomizerA);
         scoreList.set(randomizerA, score += 1);
         mScore.setText("This word: " + scoreList.get(randomizerA) + "/3");
         mArrayLeft.setText("Words left: " + characters.size());
-        if(switchOnOff==true)playSoundCorrect();
+        if (switchOnOff == true) playSoundCorrect();
         mChoice1.setEnabled(false);
         mChoice2.setEnabled(false);
         mChoice3.setEnabled(false);
         mHelp.setEnabled(false);
-
         if (score == 3) {
             characters.remove(randomizerA);
             pinyin.remove(randomizerA);
             translation.remove(randomizerA);
             scoreList.remove(randomizerA);
-
         }
-
     }
 
     private void updateQuestionCorrectB() {
@@ -389,46 +185,7 @@ public class LessonActivity extends AppCompatActivity {
             sharedPreferences.edit().putStringSet("lessonComplete", in).commit();
             killActivity();
         } else {
-
-            randomizerA = randomizerA();
-            wrongAnswer1 = new Random().nextInt(3000);
-            wrongAnswer2 = new Random().nextInt(3000);
-            mCharacters.setText(characters.get(randomizerA));
-            mPinyin.setText(pinyin.get(randomizerA));
-
-            answersArray = new ArrayList<>();
-            answersArray.add(translation.get(randomizerA));
-            answersArray.add(wrongTranslation.get(wrongAnswer1));
-            answersArray.add(wrongTranslation.get(wrongAnswer2));
-
-            if (answersArray.get(1).equals(answersArray.get(0))) {
-                answersArray.set(1, wrongTranslation.get(new Random().nextInt(3000)));
-            }
-
-            if (answersArray.get(2).equals(answersArray.get(0)) || answersArray.get(2).equals(answersArray.get(1))) {
-                answersArray.set(2, wrongTranslation.get(new Random().nextInt(3000)));
-            }
-
-
-            Collections.shuffle(answersArray);
-
-
-            mChoice1.setText(answersArray.get(0));
-            mChoice2.setText(answersArray.get(1));
-            mChoice3.setText(answersArray.get(2));
-            mScore.setText("This word: " + scoreList.get(randomizerA) + "/3");
-            mArrayLeft.setText("Words left: " + characters.size());
-
-            mChoice1.setBackgroundResource(R.drawable.button);
-            mChoice1.setTextColor(Color.parseColor("#F3F3F3"));
-            mChoice2.setBackgroundResource(R.drawable.button);
-            mChoice2.setTextColor(Color.parseColor("#F3F3F3"));
-            mChoice3.setBackgroundResource(R.drawable.button);
-            mChoice3.setTextColor(Color.parseColor("#F3F3F3"));
-            mChoice1.setEnabled(true);
-            mChoice2.setEnabled(true);
-            mChoice3.setEnabled(true);
-            mHelp.setEnabled(true);
+            updateQuestion();
         }
     }
 
@@ -442,55 +199,58 @@ public class LessonActivity extends AppCompatActivity {
         mHelp.setEnabled(false);
     }
 
-    private void updateQuestionWrongB(){
+    private void updateQuestionWrongB() {
+        updateQuestion();
+    }
+
+    private int randomizerA() {
+        int randomizerB = new Random().nextInt(characters.size());
+        if (characters.size() > 1 && randomizerB == randomizerA)
+            randomizerB = new Random().nextInt(characters.size());
+        return randomizerB;
+    }
+
+    void updateQuestion() {
         randomizerA = randomizerA();
-        wrongAnswer1 = new Random().nextInt(3000);
-        wrongAnswer2 = new Random().nextInt(3000);
-        mCharacters.setText(characters.get(randomizerA));
-        mPinyin.setText(pinyin.get(randomizerA));
-
-        answersArray = new ArrayList<>();
+        List<String> answersArray = new ArrayList<>();
         answersArray.add(translation.get(randomizerA));
-        answersArray.add(wrongTranslation.get(wrongAnswer1));
-        answersArray.add(wrongTranslation.get(wrongAnswer2));
-
-        if (answersArray.get(1).equals(answersArray.get(0))){
+        answersArray.add(wrongTranslation.get(new Random().nextInt(3000)));
+        answersArray.add(wrongTranslation.get(new Random().nextInt(3000)));
+        if (answersArray.get(1).equals(answersArray.get(0))) {
             answersArray.set(1, wrongTranslation.get(new Random().nextInt(3000)));
         }
-
-        if (answersArray.get(2).equals(answersArray.get(0)) || answersArray.get(2).equals(answersArray.get(1))){
+        if (answersArray.get(2).equals(answersArray.get(0)) || answersArray.get(2).equals(answersArray.get(1))) {
             answersArray.set(2, wrongTranslation.get(new Random().nextInt(3000)));
         }
-
         Collections.shuffle(answersArray);
-
-
-
-        mChoice1.setText(answersArray.get(0));
-        mChoice2.setText(answersArray.get(1));
-        mChoice3.setText(answersArray.get(2));
         mScore.setText("This word: " + scoreList.get(randomizerA) + "/3");
-
+        mArrayLeft.setText("Words left: " + characters.size());
+        mCharacters.setText(characters.get(randomizerA));
+        mPinyin.setText(pinyin.get(randomizerA));
+        mChoice1.setText(answersArray.get(0));
         mChoice1.setBackgroundResource(R.drawable.button);
         mChoice1.setTextColor(Color.parseColor("#F3F3F3"));
+        mChoice1.setEnabled(true);
+        mChoice2.setText(answersArray.get(1));
         mChoice2.setBackgroundResource(R.drawable.button);
         mChoice2.setTextColor(Color.parseColor("#F3F3F3"));
+        mChoice2.setEnabled(true);
+        mChoice3.setText(answersArray.get(2));
         mChoice3.setBackgroundResource(R.drawable.button);
         mChoice3.setTextColor(Color.parseColor("#F3F3F3"));
-        mChoice1.setEnabled(true);
-        mChoice2.setEnabled(true);
         mChoice3.setEnabled(true);
         mHelp.setEnabled(true);
     }
 
+    // Other methods------------------------------------------------------------------------------
+
     private void populateArrays() {
-        databaseAccess.c = databaseAccess.db.rawQuery("SELECT character, pinyin, translation FROM Table1 WHERE lessonID ="+ lessonNumber, null);
+        databaseAccess.c = databaseAccess.db.rawQuery("SELECT character, pinyin, translation FROM Table1 WHERE lessonID =" + lessonNumber, null);
         databaseAccess.c.moveToFirst();
         for (int x = 0; x < 20; x++) {
             characters.add(databaseAccess.c.getString(0));
             pinyin.add(databaseAccess.c.getString(1));
             translation.add(databaseAccess.c.getString(2));
-            //wrongTranslation.add(databaseAccess.c.getString(2));
             databaseAccess.c.moveToNext();
         }
         databaseAccess.c = databaseAccess.db.rawQuery("SELECT character, pinyin, translation FROM Table1", null);
@@ -499,19 +259,11 @@ public class LessonActivity extends AppCompatActivity {
             wrongTranslation.add(databaseAccess.c.getString(2));
             databaseAccess.c.moveToNext();
         }
-
         databaseAccess.c.close();
-
     }
 
-    private int randomizerA(){
-        randomizerB = new Random().nextInt(characters.size());
-        if (characters.size()>1 && randomizerB == randomizerA) randomizerB = new Random().nextInt(characters.size());
-        return randomizerB;
-    }
-
-    private void playSoundCorrect(){
-        mediaPlayer= MediaPlayer.create(LessonActivity.this, R.raw.correct4);
+    private void playSoundCorrect() {
+        mediaPlayer = MediaPlayer.create(LessonActivity.this, R.raw.correct4);
         mediaPlayer.start();
         mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             public void onCompletion(MediaPlayer mp) {
@@ -520,8 +272,8 @@ public class LessonActivity extends AppCompatActivity {
         });
     }
 
-    private void playSoundWrong(){
-        mediaPlayer= MediaPlayer.create(LessonActivity.this, R.raw.wrong2);
+    private void playSoundWrong() {
+        mediaPlayer = MediaPlayer.create(LessonActivity.this, R.raw.wrong2);
         mediaPlayer.start();
         mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             public void onCompletion(MediaPlayer mp) {
@@ -533,14 +285,11 @@ public class LessonActivity extends AppCompatActivity {
     public void saveData() {
         SharedPreferences sharedPreferences = getSharedPreferences("shared", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-
         editor.putBoolean("switch1", mSound.isChecked());
-
         editor.apply();
-
     }
 
-    public void loadSoundData(){
+    public void loadSoundData() {
         SharedPreferences sharedPreferences = getSharedPreferences("shared", MODE_PRIVATE);
         switchOnOff = sharedPreferences.getBoolean("switch1", true);
         mSound.setChecked(switchOnOff);
@@ -549,5 +298,4 @@ public class LessonActivity extends AppCompatActivity {
     private void killActivity() {
         finish();
     }
-
 }
