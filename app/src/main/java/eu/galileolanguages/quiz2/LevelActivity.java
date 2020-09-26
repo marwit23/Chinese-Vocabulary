@@ -24,7 +24,7 @@ public class LevelActivity extends AppCompatActivity {
     ImageView[] tickImageViews = {tick1, tick2, tick3, tick4, tick5, tick6, tick7, tick8, tick9, tick10};
 
     public int levelNumber;
-    Set<String> levelsCompleted = new HashSet<>();
+    Set<String> lessonsCompleted = new HashSet<>();
     int finish;
 
     @Override
@@ -32,6 +32,11 @@ public class LevelActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_level);
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
+
+        Intent intent = getIntent();
+        levelNumber = intent.getIntExtra("levelNumber", 1);
+        loadData();
+
 
         for (int i = 0; i < 10; i++) {
             String levelID = "lesson" + (i+1);
@@ -53,15 +58,11 @@ public class LevelActivity extends AppCompatActivity {
             String levelID = "tick" + (i+1);
             int resID = getResources().getIdentifier(levelID, "id", getPackageName());
             tickImageViews[i] = ((ImageView) findViewById(resID));
-            int x = levelNumber * 10 - 10;
-            if (levelsCompleted.contains("true" + (x+1))) tick1.setImageResource(android.R.drawable.btn_star_big_on);
+            if (lessonsCompleted.contains("true" + (i+1))) tickImageViews[i].setImageResource(android.R.drawable.btn_star_big_on);
         }
 
-        loadData();
-        Intent intent = getIntent();
-        levelNumber = intent.getIntExtra("levelNumber", 1);
             for(int x = 1; x<=150; x++){
-                if(levelsCompleted.contains("true" + x))finish =x;
+                if(lessonsCompleted.contains("true" + x))finish =x;
                 else break;
             }
             if(finish==150){
@@ -71,13 +72,14 @@ public class LevelActivity extends AppCompatActivity {
 
     public void loadData(){
         SharedPreferences sharedPreferences = getSharedPreferences("shared", MODE_PRIVATE);
-        levelsCompleted = sharedPreferences.getStringSet("lessonComplete", levelsCompleted);
+        lessonsCompleted = sharedPreferences.getStringSet("lessonComplete", lessonsCompleted);
     }
     @Override
     protected void onRestart() {
         super.onRestart();
         finish();
         startActivity(getIntent());
+
     }
     protected void showDialog(){
     AlertDialog alertDialog = new AlertDialog.Builder(LevelActivity.this).create();
