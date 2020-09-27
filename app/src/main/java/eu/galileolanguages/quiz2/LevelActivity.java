@@ -58,7 +58,7 @@ public class LevelActivity extends AppCompatActivity {
             String levelID = "tick" + (i+1);
             int resID = getResources().getIdentifier(levelID, "id", getPackageName());
             tickImageViews[i] = ((ImageView) findViewById(resID));
-            if (lessonsCompleted.contains("true" + (i+1))) tickImageViews[i].setImageResource(android.R.drawable.btn_star_big_on);
+            if (lessonsCompleted.contains("true" + ((levelNumber * 10 - 10) + (i+1)))) tickImageViews[i].setImageResource(android.R.drawable.btn_star_big_on);
         }
 
             for(int x = 1; x<=150; x++){
